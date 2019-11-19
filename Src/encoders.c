@@ -14,7 +14,6 @@ float getPositionY(void) {
 	return (originY - htim8.Instance->CNT) / ENCODER_FACTOR;
 }
 
-
 void zeroX(void) {
 	originX = htim1.Instance->CNT;
 }

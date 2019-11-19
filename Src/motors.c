@@ -24,12 +24,17 @@ void disableMotors(void) {
 }
 
 void setSpeedX(float speed) {
+	if(speed > 1)
+		speed = 1;
+	else if(speed < -1)
+		speed = -1;
+	
 	if(speed > 0) {
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, speed * 100);
+		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, speed * 4095);
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
 	} else if (speed < 0) {
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, speed * 100);
+		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, speed * 4095);
 	} else {
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
@@ -37,12 +42,17 @@ void setSpeedX(float speed) {
 }
 
 void setSpeedY(float speed) {
+	if(speed > 1)
+		speed = 1;
+	else if(speed < -1)
+		speed = -1;
+	
 	if(speed > 0) {
-		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, speed * 100);
+		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, speed * 4095);
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0);
 	} else if (speed < 0) {
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
-		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, speed * 100);
+		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, speed * 4095);
 	} else {
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0);

@@ -18,18 +18,21 @@ void moveL(float x, float y) {
 void controllerInit(void) {
 	status = INIT;
 	
-	// TODO: init sequence to calibrate encoders
+	enableMotors();
+	
+	setSpeedX(-0.5); // move towards x origin
+	while(switchState(SW_X_A) == 0); // wait to reach start x endswitch
+	zeroX(); // we reached start, zero encoder
+	setSpeedX(0); // stop moving towards origin
+	
+	setSpeedY(-0.5); // move towards y origin
+	while(switchState(SW_X_B) == 0); // wait to reach start y endswitch
+	zeroY(); // we reached start, zero encoder
+	setSpeedY(0); // stop moving towards origin
+	
+	disableMotors();
 	
 	status = IDLE;
-}
-
-void controllerIdle(void) {
-	status = IDLE;
-	disableMotors();
-}
-
-ControllerStatus getStatus(void) {
-	return status;
 }
 
 void controllerTick(uint8_t dt) {
@@ -40,7 +43,16 @@ void controllerTick(uint8_t dt) {
 			controllerIdle();
 		} else {
 			setSpeedX(ex * KX);
-			setSpeedX(ey * KY);
+			setSpeedY(ey * KY);
 		}
 	}
+}
+
+void controllerIdle(void) {
+	status = IDLE;
+	disableMotors();
+}
+
+ControllerStatus getStatus(void) {
+	return status;
 }

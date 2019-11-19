@@ -24,12 +24,11 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include <stdio.h>
-
 #include "encoders.h"
 #include "motors.h"
 #include "switches.h"
 #include "communication.h"
+#include "targets.h"
 #include "controller.h"
 
 /* USER CODE END Includes */
@@ -78,7 +77,7 @@ static void MX_TIM17_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t ticks;
+uint32_t ticks;
 /* USER CODE END 0 */
 
 /**
@@ -127,6 +126,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		uint32_t ticks_new = HAL_GetTick();
+		
+		controllerTick(ticks_new - ticks);
+		targetsTick();
+		
+		ticks = ticks_new;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -595,6 +600,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, LD2_Pin|MOT_A_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, LED_B_Pin|LED_G_Pin|LED_R_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
@@ -625,6 +633,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = SW_X_A_Pin|SW_X_B_Pin|SW_Y_A_Pin|SW_Y_B_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LED_B_Pin LED_G_Pin LED_R_Pin */
+  GPIO_InitStruct.Pin = LED_B_Pin|LED_G_Pin|LED_R_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
