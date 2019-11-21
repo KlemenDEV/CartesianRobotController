@@ -128,8 +128,8 @@ int main(void)
   {
 		uint32_t ticks_new = HAL_GetTick();
 		
-		controllerTick(ticks_new - ticks);
 		targetsTick();
+		controllerTick(ticks_new - ticks);
 		
 		ticks = ticks_new;
     /* USER CODE END WHILE */
@@ -619,7 +619,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin : AUX_IN1_Pin */
   GPIO_InitStruct.Pin = AUX_IN1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(AUX_IN1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LD2_Pin MOT_A_Pin */
@@ -632,7 +632,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pins : SW_X_A_Pin SW_X_B_Pin SW_Y_A_Pin SW_Y_B_Pin */
   GPIO_InitStruct.Pin = SW_X_A_Pin|SW_X_B_Pin|SW_Y_A_Pin|SW_Y_B_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED_B_Pin LED_G_Pin LED_R_Pin */

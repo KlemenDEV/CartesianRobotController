@@ -4,6 +4,9 @@
 #include "motors.h"
 #include "switches.h"
 
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
+
 typedef enum {
 	IDLE, INIT, MOVEL
 } ControllerStatus;
@@ -16,3 +19,5 @@ ControllerStatus getStatus(void);
 void controllerIdle(void);
 
 void controllerTick(uint8_t dt);
+
+#endif
