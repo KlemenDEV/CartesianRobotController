@@ -78,6 +78,8 @@ static void MX_TIM17_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint32_t ticks;
+
+float x,y;
 /* USER CODE END 0 */
 
 /**
@@ -119,6 +121,16 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	controllerInit();
+	
+	enableMotors();
+	setSpeedX(0);
+	setSpeedY(0);
+	
+
+	float speed = 0;
+	uint32_t ticks_new;
+	
+	
 
   /* USER CODE END 2 */
 
@@ -126,12 +138,33 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		uint32_t ticks_new = HAL_GetTick();
+		ticks_new = HAL_GetTick();
 		
-		targetsTick();
-		controllerTick(ticks_new - ticks);
+		x = getPositionX();
+		y = getPositionY();
 		
-		ticks = ticks_new;
+		//targetsTick();
+		//controllerTick(ticks_new - ticks);
+		
+		/*if(ticks % 1000 == 0) {
+			speed += 0.1f;
+			setSpeedX(speed);
+			setSpeedY(speed);
+		}*/
+		
+		if(ticks_new - ticks > 1000) {
+			speed += 0.1f;
+		
+			if(speed >= 1)
+				speed = -1;
+			
+			setSpeedX(speed);
+			setSpeedY(speed);
+			
+			ticks = ticks_new;
+		}
+		
+		//ticks = ticks_new;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -213,7 +246,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 0;
+  htim1.Init.Period = 65535;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -238,7 +271,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM1_Init 2 */
-
+	HAL_TIM_Encoder_Start(&htim1,TIM_CHANNEL_ALL);
   /* USER CODE END TIM1_Init 2 */
 
 }
@@ -390,7 +423,7 @@ static void MX_TIM8_Init(void)
   htim8.Instance = TIM8;
   htim8.Init.Prescaler = 0;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 0;
+  htim8.Init.Period = 65535;
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim8.Init.RepetitionCounter = 0;
   htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -415,7 +448,7 @@ static void MX_TIM8_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM8_Init 2 */
-
+	HAL_TIM_Encoder_Start(&htim8,TIM_CHANNEL_ALL);
   /* USER CODE END TIM8_Init 2 */
 
 }

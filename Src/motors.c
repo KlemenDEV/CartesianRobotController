@@ -33,6 +33,7 @@ void setSpeedX(float speed) {
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, speed * 4095);
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
 	} else if (speed < 0) {
+		speed *= -1;
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, speed * 4095);
 	} else {
@@ -51,6 +52,7 @@ void setSpeedY(float speed) {
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, speed * 4095);
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0);
 	} else if (speed < 0) {
+		speed *= -1;
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, speed * 4095);
 	} else {
