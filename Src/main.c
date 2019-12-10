@@ -80,6 +80,9 @@ static void MX_TIM17_Init(void);
 uint32_t ticks;
 
 float x,y;
+
+bool a, b;
+
 /* USER CODE END 0 */
 
 /**
@@ -120,11 +123,12 @@ int main(void)
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 
-	controllerInit();
+	//controllerInit();
 	
-	enableMotors();
-	setSpeedX(0);
-	setSpeedY(0);
+	// tmp
+	//enableMotors();
+	//setSpeedX(0);
+	//setSpeedY(0);
 	
 
 	float speed = 0;
@@ -143,6 +147,11 @@ int main(void)
 		x = getPositionX();
 		y = getPositionY();
 		
+		a = switchState(SW_X_A);
+		b = switchState(SW_Y_A);
+		
+		//communicationTick();
+		
 		//targetsTick();
 		//controllerTick(ticks_new - ticks);
 		
@@ -152,7 +161,7 @@ int main(void)
 			setSpeedY(speed);
 		}*/
 		
-		if(ticks_new - ticks > 1000) {
+		/*if(ticks_new - ticks > 1000) {
 			speed += 0.1f;
 		
 			if(speed >= 1)
@@ -162,7 +171,7 @@ int main(void)
 			setSpeedY(speed);
 			
 			ticks = ticks_new;
-		}
+		}*/
 		
 		//ticks = ticks_new;
     /* USER CODE END WHILE */

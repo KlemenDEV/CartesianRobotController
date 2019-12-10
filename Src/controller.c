@@ -26,7 +26,7 @@ void controllerInit(void) {
 	setSpeedX(0); // stop moving towards origin
 	
 	setSpeedY(-0.5); // move towards y origin
-	while(switchState(SW_X_B) == 0); // wait to reach start y endswitch
+	while(switchState(SW_Y_A) == 0); // wait to reach start y endswitch
 	zeroY(); // we reached start, zero encoder
 	setSpeedY(0); // stop moving towards origin
 	
