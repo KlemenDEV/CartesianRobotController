@@ -24,9 +24,9 @@ typedef struct {
 	uint32_t write_idx;
 	uint32_t read_idx;
 	target *data;
-} fifo_t;
+} targets_fifo_t;
 
-uint32_t targets_fifo_read(fifo_t *fifo, target *dest, uint32_t n);
-uint32_t targets_fifo_write(fifo_t *fifo, target *src, uint32_t n);
+uint32_t targets_fifo_read(targets_fifo_t *fifo, target *dest, uint32_t n);
+uint32_t targets_fifo_write(targets_fifo_t *fifo, target *src, uint32_t n);
 
 #endif

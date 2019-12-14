@@ -2,7 +2,7 @@
 
 #define BUFFER_SIZE 256
 target target_buffer[BUFFER_SIZE];
-static fifo_t targets_fifo = {BUFFER_SIZE, 0, 0, target_buffer};
+static targets_fifo_t targets_fifo = {BUFFER_SIZE, 0, 0, target_buffer};
 
 void targetsTick(void) {
 	if(getStatus() == IDLE) { // tool not moving, next action
@@ -20,7 +20,7 @@ void addTarget(target _target) {
 	targets_fifo_write(&targets_fifo, &_target, 1);
 }
 
-uint32_t targets_fifo_read(fifo_t *fifo, target *dest, uint32_t n){
+uint32_t targets_fifo_read(targets_fifo_t *fifo, target *dest, uint32_t n){
 	uint32_t i = 0;
 	for(i = 0; i < n; i++) {
 		if(fifo->read_idx == fifo->write_idx) // fifo empty
@@ -33,7 +33,7 @@ uint32_t targets_fifo_read(fifo_t *fifo, target *dest, uint32_t n){
 	return i;
 }
 
-uint32_t targets_fifo_write(fifo_t *fifo, target *src, uint32_t n){
+uint32_t targets_fifo_write(targets_fifo_t *fifo, target *src, uint32_t n){
 	uint32_t i = 0;
 	for(i = 0; i < n; i++){
 		uint32_t idx = fifo->write_idx + 1;

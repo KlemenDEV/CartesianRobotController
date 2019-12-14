@@ -79,10 +79,6 @@ static void MX_TIM17_Init(void);
 /* USER CODE BEGIN 0 */
 uint32_t ticks;
 
-float x,y;
-
-bool a, b;
-
 /* USER CODE END 0 */
 
 /**
@@ -123,19 +119,11 @@ int main(void)
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 
-	//controllerInit();
-	
-	// tmp
-	//enableMotors();
-	//setSpeedX(0);
-	//setSpeedY(0);
-	
+	controllerInit();
 
-	float speed = 0;
 	uint32_t ticks_new;
 	
 	
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -144,36 +132,11 @@ int main(void)
   {
 		ticks_new = HAL_GetTick();
 		
-		x = getPositionX();
-		y = getPositionY();
+		communicationTick();
+		targetsTick();
+		controllerTick(ticks_new - ticks);
 		
-		a = switchState(SW_X_A);
-		b = switchState(SW_Y_A);
-		
-		//communicationTick();
-		
-		//targetsTick();
-		//controllerTick(ticks_new - ticks);
-		
-		/*if(ticks % 1000 == 0) {
-			speed += 0.1f;
-			setSpeedX(speed);
-			setSpeedY(speed);
-		}*/
-		
-		/*if(ticks_new - ticks > 1000) {
-			speed += 0.1f;
-		
-			if(speed >= 1)
-				speed = -1;
-			
-			setSpeedX(speed);
-			setSpeedY(speed);
-			
-			ticks = ticks_new;
-		}*/
-		
-		//ticks = ticks_new;
+		ticks = ticks_new;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

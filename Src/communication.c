@@ -6,7 +6,11 @@ void communicationTick(void) {
 	char buffer;
 	HAL_StatusTypeDef result = HAL_UART_Receive(&huart2, (uint8_t*) &buffer, 1, 1);
 	if(result != HAL_TIMEOUT) {
-		
+		if(buffer == 0x02) { // StartOfText
+			
+		} else if(buffer == 0x03) { //EndOfText
+			
+		}
 	}
 }
 
