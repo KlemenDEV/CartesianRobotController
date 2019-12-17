@@ -123,7 +123,7 @@ int main(void)
 	uartPrintln("Initiating");
 
 	servosInit();
-	controllerInit();
+	//controllerInit(); //TMP
 	
 	// turn on green status LED
 	HAL_GPIO_WritePin(LED_STATUS_G, GPIO_PIN_SET);
@@ -132,6 +132,8 @@ int main(void)
 	
 	uartPrintln("Starting main loop");
 	
+	setServoPosition(0, 180);
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -139,6 +141,8 @@ int main(void)
   while (1)
   {
 		ticks_new = HAL_GetTick();
+				
+		uartPrintln("aaa");
 		
 		communicationTick();
 		targetsTick();
