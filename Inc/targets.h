@@ -1,10 +1,13 @@
 #include "main.h"
 #include "conf.h"
 #include "controller.h"
+#include "servos.h"
 #include <string.h>
 
 #ifndef TARGETS_H
 #define TARGETS_H
+
+static bool process_targets = false;
 
 typedef enum {
 	MOVE, PICK, PLACE
@@ -18,6 +21,8 @@ typedef struct {
 
 void addTarget(target target);
 void targetsTick(void);
+
+void setProcessTargets(bool enable);
 
 typedef struct {
 	uint32_t size;

@@ -5,12 +5,19 @@ target target_buffer[BUFFER_SIZE];
 static targets_fifo_t targets_fifo = {BUFFER_SIZE, 0, 0, target_buffer};
 
 void targetsTick(void) {
+	if(!process_targets)
+		return;
+	
 	if(getStatus() == IDLE) { // tool not moving, next action
 		target *action;
 		uint32_t num = targets_fifo_read(&targets_fifo, action, 1);
 		if(num > 0) {
 			if(action->type == MOVE) {
 				moveL(action->x, action->y);
+			} else if(action->type == PICK) {
+				setServoPosition(0, 0);
+			} else if(action->type == PLACE) {
+				setServoPosition(0, 90);
 			}
 		}
 	}
@@ -18,6 +25,10 @@ void targetsTick(void) {
 
 void addTarget(target _target) {
 	targets_fifo_write(&targets_fifo, &_target, 1);
+}
+
+void setProcessTargets(bool enable) {
+	process_targets = enable;
 }
 
 uint32_t targets_fifo_read(targets_fifo_t *fifo, target *dest, uint32_t n){
