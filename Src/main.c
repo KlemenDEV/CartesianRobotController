@@ -146,6 +146,7 @@ int main(void)
 		
 		communicationTick();
 		targetsTick();
+		encodersTick();
 		controllerTick(ticks_new - ticks);
 		
 		ticks = ticks_new;
