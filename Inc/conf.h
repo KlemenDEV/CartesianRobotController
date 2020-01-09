@@ -20,3 +20,10 @@
 
 #define KI_X 0.0004f
 #define KI_Y 0.0004f
+
+#define KD_X 0.0f
+#define KD_Y 0.0f
+
+#define TARGET_WAIT 500
+#define TARGET_RANGE 0.01f
+#define TARGET_CONDITION (fabs(ex) < TARGET_RANGE /*&& fabs(ey) < TARGET_RANGE*/)

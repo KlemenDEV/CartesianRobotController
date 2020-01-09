@@ -22,7 +22,7 @@ typedef struct {
 } target;
 
 void addTarget(target target);
-void targetsTick(void);
+void targetsTick(uint8_t dt);
 
 void setProcessTargets(bool enable);
 

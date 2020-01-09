@@ -139,9 +139,10 @@ int main(void)
 		
 		communicationTick();
 		
-		targetsTick();
+		targetsTick(ticks_new - ticks);
 		encodersTick();
 		controllerTick(ticks_new - ticks);
+		motorsSpeedTick();
 		
 		ticks = ticks_new;
     /* USER CODE END WHILE */

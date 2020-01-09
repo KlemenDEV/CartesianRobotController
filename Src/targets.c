@@ -8,7 +8,7 @@ bool isProcessTargets(void) {
 	return process_targets;
 }
 
-void targetsTick(void) {
+void targetsTick(uint8_t dt) {
 	if(!process_targets)
 		return;
 	

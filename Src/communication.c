@@ -50,8 +50,6 @@ void communicationTick(void) {
 		} else if(datain == 0x04) { // stop processing targets command (no data payload)
 			setProcessTargets(false);
 		} else if(datain == 0x0F) { // emergency stop (no data payload)
-			setSpeedX(0);
-			setSpeedY(0);
 			disableMotors();
 			setProcessTargets(false);
 		}
