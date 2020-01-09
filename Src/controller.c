@@ -5,10 +5,23 @@ static ControllerStatus status = IDLE;
 static float target_x; // in cm
 static float target_y; // in cm
 
+// controller parameters
+static float ix = 0, iy = 0;
+static float exold = 0, eyold = 0;
+
+// target wait timer
+static int waittime = 0;
+
 void moveL(float x, float y) {
 	if(status != IDLE)
 		return;
 
+	// reset controller
+	ix = 0;
+	iy = 0;
+	exold = 0;
+	eyold = 0;
+	
 	target_x = x;
 	target_y = y;
 	status = MOVEL;
@@ -34,11 +47,6 @@ void controllerInit(void) {
 	
 	status = IDLE;
 }
-
-static float ix = 0, iy = 0;
-static float exold = 0, eyold = 0;
-
-static int waittime = 0;
 
 void controllerTick(uint8_t dt) {	
 	float ex = getPositionX() - target_x;
