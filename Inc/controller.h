@@ -3,6 +3,10 @@
 #include "encoders.h"
 #include "motors.h"
 #include "switches.h"
+#include "print.h"
+
+#include <math.h>
+#include <stdio.h>
 
 #ifndef CONTROLLER_H
 #define CONTROLLER_H

@@ -9,12 +9,12 @@ static int encoderOriginY = 0;
 static int oldEncoderX = 0;
 static int oldEncoderY = 0;
 
-static float currentPosX = 0;
-static float currentPosY = 0;
+float currentPosX = 0;
+float currentPosY = 0;
 
 void encodersTick(void) {
-	int currX = htim1.Instance->CNT;
 	int currY = htim1.Instance->CNT;
+	int currX = htim8.Instance->CNT;
 	
 	int dx = currX - oldEncoderX;
 	int dy = currY - oldEncoderY;
@@ -35,6 +35,9 @@ void encodersTick(void) {
 	
 	currentPosX += dx / ENCODER_FACTOR;
 	currentPosY += dy / ENCODER_FACTOR;
+	
+	oldEncoderX = currX;
+	oldEncoderY = currY;
 }
 
 float getPositionX(void) {
@@ -46,13 +49,13 @@ float getPositionY(void) {
 }
 
 void zeroX(void) {
-	encoderOriginX = htim1.Instance->CNT;
+	encoderOriginX = htim8.Instance->CNT;
 	oldEncoderX = encoderOriginX;
 	currentPosX = 0;
 }
 
 void zeroY(void) {
-	encoderOriginY = htim8.Instance->CNT;
+	encoderOriginY = htim1.Instance->CNT;
 	oldEncoderY = encoderOriginY;
 	currentPosY = 0;
 }

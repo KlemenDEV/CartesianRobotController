@@ -28,6 +28,7 @@
 #include "motors.h"
 #include "servos.h"
 #include "switches.h"
+#include "print.h"
 #include "communication.h"
 #include "targets.h"
 #include "controller.h"
@@ -79,6 +80,7 @@ static void MX_TIM17_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint32_t ticks;
+uint32_t ticks_new;
 
 /* USER CODE END 0 */
 
@@ -123,16 +125,9 @@ int main(void)
 	uartPrintln("Initiating");
 
 	servosInit();
-	//controllerInit(); //TMP
-	
-	// turn on green status LED
-	HAL_GPIO_WritePin(LED_STATUS_G, GPIO_PIN_SET);
-
-	uint32_t ticks_new;
+	controllerInit();
 	
 	uartPrintln("Starting main loop");
-	
-	setServoPosition(0, 180);
 	
   /* USER CODE END 2 */
 
@@ -141,10 +136,9 @@ int main(void)
   while (1)
   {
 		ticks_new = HAL_GetTick();
-				
-		uartPrintln("aaa");
 		
 		communicationTick();
+		
 		targetsTick();
 		encodersTick();
 		controllerTick(ticks_new - ticks);
@@ -578,7 +572,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 19200;
+  huart2.Init.BaudRate = 115200;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;

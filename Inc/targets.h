@@ -4,6 +4,8 @@
 #include "servos.h"
 #include <string.h>
 
+#include "print.h"
+
 #ifndef TARGETS_H
 #define TARGETS_H
 
@@ -23,6 +25,8 @@ void addTarget(target target);
 void targetsTick(void);
 
 void setProcessTargets(bool enable);
+
+bool isProcessTargets(void);
 
 typedef struct {
 	uint32_t size;

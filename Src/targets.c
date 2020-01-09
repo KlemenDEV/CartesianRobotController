@@ -4,6 +4,10 @@
 target target_buffer[BUFFER_SIZE];
 static targets_fifo_t targets_fifo = {BUFFER_SIZE, 0, 0, target_buffer};
 
+bool isProcessTargets(void) {
+	return process_targets;
+}
+
 void targetsTick(void) {
 	if(!process_targets)
 		return;
@@ -14,11 +18,14 @@ void targetsTick(void) {
 		if(num > 0) {
 			if(action->type == MOVE) {
 				moveL(action->x, action->y);
+				uartPrintln("Processing next MOVE action");
 			} else if(action->type == PICK) {
 				setServoPosition(0, 0);
 			} else if(action->type == PLACE) {
 				setServoPosition(0, 90);
 			}
+		} else {
+			setProcessTargets(false);
 		}
 	}
 }
@@ -29,6 +36,11 @@ void addTarget(target _target) {
 
 void setProcessTargets(bool enable) {
 	process_targets = enable;
+	if(enable) {
+		uartPrintln("Starting processing targets");
+	} else {
+		uartPrintln("Stopping processing targets");
+	}
 }
 
 uint32_t targets_fifo_read(targets_fifo_t *fifo, target *dest, uint32_t n){
