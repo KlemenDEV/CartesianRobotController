@@ -34,12 +34,16 @@ void controllerInit(void) {
 	enableMotors();
 	
 	setSpeedX(0.25); // move towards x origin
-	while(switchState(SW_X_A) == 1); // wait to reach start x endswitch
+	while(switchState(SW_X_A) == 1) {
+		motorsSpeedTick();
+	} // wait to reach start x endswitch
 	setSpeedX(0); // stop moving towards origin
 	zeroX(); // we reached start, zero encoder
 	
 	/*setSpeedY(0.5); // move towards y origin
-	while(switchState(SW_Y_A) == 1); // wait to reach start y endswitch
+	while(switchState(SW_Y_A) == 1) {
+		motorsSpeedTick();
+	}	// wait to reach start y endswitch
 	setSpeedY(0); // stop moving towards origin
 	zeroY(); // we reached start, zero encoder*/
 	
@@ -65,14 +69,26 @@ void controllerTick(uint8_t dt) {
 	}
 	
 	if(status == MOVEL || status == MOVEL_IN_TARGET) {
+		float oix = ix;
+		float oiy = iy;
+		
 		ix += ex * (float) dt;
 		iy += ey * (float) dt;
 		
 		float derx = (ex - exold) / (float) dt;
 		float dery = (ey - eyold) / (float) dt;
 		
-		setSpeedX(ex * KP_X + ix * KI_X + derx * KD_X);
-		setSpeedY(ey * KP_Y + iy * KI_X + dery * KD_Y);
+		float spx = ex * KP_X + ix * KI_X + derx * KD_X;
+		float spy = ey * KP_Y + iy * KI_X + dery * KD_Y;
+		
+		setSpeedX(spx);
+		setSpeedY(spy);
+		
+		if(fabs(spx) > 1)
+			ix = oix;
+		
+		if(fabs(spy) > 1)
+			iy = oiy;
 		
 		exold = ex;
 		eyold = ey;
