@@ -12,17 +12,22 @@
 static bool process_targets = false;
 
 typedef enum {
-	MOVE, PICK, PLACE
+	MOVE, PICK, PLACE, WAIT
 } TargetType;
 
 typedef struct {
 	TargetType type;
 	float x;
 	float y;
+	int t;
 } target;
 
-void addTarget(target target);
 void targetsTick(uint8_t dt);
+
+void addTarget(target target);
+
+void addWaitTarget(int ms);
+void addMoveTarget(float x, float y);
 
 void setProcessTargets(bool enable);
 

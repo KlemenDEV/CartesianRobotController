@@ -12,13 +12,14 @@
 #define CONTROLLER_H
 
 typedef enum {
-	IDLE, INIT, MOVEL, MOVEL_IN_TARGET
+	IDLE, INIT, MOVEL, MOVEL_IN_TARGET, WAITING
 } ControllerStatus;
 
 void controllerInit(void);
 void moveL(float x, float y);
 
 ControllerStatus getStatus(void);
+void setStatus(ControllerStatus newstatus);
 
 void controllerIdle(void);
 

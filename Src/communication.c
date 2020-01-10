@@ -28,12 +28,7 @@ void communicationTick(void) {
 				if(result == HAL_OK) {
 					memcpy(&y, &point, sizeof(y));
 					
-					// add move target
-					target target_point;
-					target_point.type = MOVE;
-					target_point.x = x;
-					target_point.y = y;
-					addTarget(target_point);
+					addMoveTarget(x, y);
 					
 					uartPrint("Received point ");
 					char buff[64];

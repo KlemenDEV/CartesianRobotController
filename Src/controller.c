@@ -7,7 +7,6 @@ static float target_y; // in cm
 
 // controller parameters
 static float ix = 0, iy = 0;
-static float exold = 0, eyold = 0;
 
 // target wait timer
 static int waittime = 0;
@@ -19,8 +18,6 @@ void moveL(float x, float y) {
 	// reset controller
 	ix = 0;
 	iy = 0;
-	exold = 0;
-	eyold = 0;
 	
 	target_x = x;
 	target_y = y;
@@ -75,11 +72,8 @@ void controllerTick(uint8_t dt) {
 		ix += ex * (float) dt;
 		iy += ey * (float) dt;
 		
-		float derx = (ex - exold) / (float) dt;
-		float dery = (ey - eyold) / (float) dt;
-		
-		float spx = ex * KP_X + ix * KI_X + derx * KD_X;
-		float spy = ey * KP_Y + iy * KI_X + dery * KD_Y;
+		float spx = ex * KP_X + ix * KI_X;
+		float spy = ey * KP_Y + iy * KI_X;
 		
 		setSpeedX(spx);
 		setSpeedY(spy);
@@ -89,9 +83,6 @@ void controllerTick(uint8_t dt) {
 		
 		if(fabs(spy) > 1)
 			iy = oiy;
-		
-		exold = ex;
-		eyold = ey;
 		
 		if(TARGET_CONDITION && status != MOVEL_IN_TARGET) { // if we are in target and not in MOVEL_INTARGET state yet
 			waittime = 0;
@@ -109,4 +100,8 @@ void controllerIdle(void) {
 
 ControllerStatus getStatus(void) {
 	return status;
+}
+
+void setStatus(ControllerStatus newstatus) {
+	status = newstatus;
 }

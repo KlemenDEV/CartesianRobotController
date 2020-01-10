@@ -4,9 +4,8 @@
 target target_buffer[BUFFER_SIZE];
 static targets_fifo_t targets_fifo = {BUFFER_SIZE, 0, 0, target_buffer};
 
-bool isProcessTargets(void) {
-	return process_targets;
-}
+static int delay_t = 0;
+static int waiting_for = 0;
 
 void targetsTick(uint8_t dt) {
 	if(!process_targets)
@@ -23,11 +22,39 @@ void targetsTick(uint8_t dt) {
 				setServoPosition(0, 0);
 			} else if(action->type == PLACE) {
 				setServoPosition(0, 90);
+			} else if(action->type == WAIT) {
+				setStatus(WAITING);
+				delay_t = action->t;
+				waiting_for = 0;
 			}
 		} else {
 			setProcessTargets(false);
 		}
+	} else if(getStatus() == WAITING) { // process wait delay
+		waiting_for += dt;
+		if(waiting_for >= delay_t) {
+			setStatus(IDLE);
+		}
 	}
+}
+
+bool isProcessTargets(void) {
+	return process_targets;
+}
+
+void addWaitTarget(int ms) {
+	target target_point;
+	target_point.type = WAIT;
+	target_point.t = ms;
+	addTarget(target_point);
+}
+
+void addMoveTarget(float x, float y) {
+	target target_point;
+	target_point.type = MOVE;
+	target_point.x = x;
+	target_point.y = y;
+	addTarget(target_point);
 }
 
 void addTarget(target _target) {

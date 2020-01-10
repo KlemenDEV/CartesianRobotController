@@ -138,7 +138,6 @@ int main(void)
 		ticks_new = HAL_GetTick();
 		
 		communicationTick();
-		
 		targetsTick(ticks_new - ticks);
 		encodersTick();
 		controllerTick(ticks_new - ticks);
