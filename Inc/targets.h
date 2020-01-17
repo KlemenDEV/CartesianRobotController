@@ -12,7 +12,7 @@
 static bool process_targets = false;
 
 typedef enum {
-	MOVE, PICK, PLACE, WAIT
+	MOVE, TOOL, WAIT
 } TargetType;
 
 typedef struct {
@@ -28,6 +28,7 @@ void addTarget(target target);
 
 void addWaitTarget(int ms);
 void addMoveTarget(float x, float y);
+void addToolTarget(int position);
 
 void setProcessTargets(bool enable);
 
@@ -40,7 +41,7 @@ typedef struct {
 	target *data;
 } targets_fifo_t;
 
-uint32_t targets_fifo_read(targets_fifo_t *fifo, target *dest, uint32_t n);
+uint32_t targets_fifo_read(targets_fifo_t *fifo, target **dest, uint32_t n);
 uint32_t targets_fifo_write(targets_fifo_t *fifo, target *src, uint32_t n);
 
 #endif

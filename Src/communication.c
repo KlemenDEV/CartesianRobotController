@@ -28,7 +28,17 @@ void communicationTick(void) {
 				if(result == HAL_OK) {
 					memcpy(&y, &point, sizeof(y));
 					
+					addMoveTarget(x - 2, y + 2);
 					addMoveTarget(x, y);
+					addToolTarget(TOOL_POS_COLLECT);
+					addWaitTarget(1000);
+					addToolTarget(TOOL_POS_CARRY);
+					addWaitTarget(1000);
+					
+					addMoveTarget(CONTAINER_POSITION);
+					addToolTarget(TOOL_POS_DROP);
+					addWaitTarget(500);
+					addToolTarget(TOOL_POS_CARRY);
 					
 					uartPrint("Received point ");
 					char buff[64];
@@ -42,11 +52,6 @@ void communicationTick(void) {
 			}
 		} else if(datain == 0x03) { // start processing targets command (no data payload)
 			setProcessTargets(true);
-		} else if(datain == 0x04) { // stop processing targets command (no data payload)
-			setProcessTargets(false);
-		} else if(datain == 0x0F) { // emergency stop (no data payload)
-			disableMotors();
-			setProcessTargets(false);
 		}
 	}
 }

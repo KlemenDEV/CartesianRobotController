@@ -6,6 +6,6 @@
 
 void servosInit(void);
 
-void setServoPosition(int servo, float angle);
+void setServoPosition(int servo, int angle);
 
 #endif

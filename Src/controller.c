@@ -30,19 +30,19 @@ void controllerInit(void) {
 	
 	enableMotors();
 	
-	setSpeedX(0.25); // move towards x origin
+	setSpeedX(0.4); // move towards x origin
 	while(switchState(SW_X_A) == 1) {
 		motorsSpeedTick();
 	} // wait to reach start x endswitch
 	setSpeedX(0); // stop moving towards origin
 	zeroX(); // we reached start, zero encoder
 	
-	/*setSpeedY(0.5); // move towards y origin
+	setSpeedY(0.4); // move towards y origin
 	while(switchState(SW_Y_A) == 1) {
 		motorsSpeedTick();
 	}	// wait to reach start y endswitch
 	setSpeedY(0); // stop moving towards origin
-	zeroY(); // we reached start, zero encoder*/
+	zeroY(); // we reached start, zero encoder
 	
 	disableMotors();
 	
