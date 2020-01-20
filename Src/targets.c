@@ -80,8 +80,17 @@ void addTarget(target _target) {
 void setProcessTargets(bool enable) {
 	process_targets = enable;
 	if(enable) {
+		addMoveTarget(CONTAINER_POSITION);
+		for(int i = 0; i < 5; i++) {
+			addToolTarget(TOOL_POS_DROP);
+			addWaitTarget(500);
+			addToolTarget(TOOL_POS_CARRY);
+			addWaitTarget(500);
+		}
+		
 		//add final target (home)
 		addToolTarget(TOOL_POS_CARRY);
+		addWaitTarget(500);
 		addMoveTarget(0, 0);
 		
 		uartPrintln("Starting processing targets");
